@@ -1,4 +1,3 @@
-# IMPORTANT INFORMATION: the use of 'self' ALWAYS refers to the class that it is in. EVERY FUNCTION INSIDE OF A CLASS MUST DECLARE SELF! ex: 'def exampleFunction(self, input1, input2):
 
 import math
 import random
@@ -138,6 +137,22 @@ class TowerDefenseGame(Game):
 
     def set_state(self, state: TowerDefenseGameState):
         self.state = state
+
+class Map:
+    __instance = None
+
+    def __init__(self):
+        if Map.__instance is not None:
+            raise Exception("Map class is a singleton!")
+        else:
+            self.tiles = []
+            Map.__instance = self
+
+    @staticmethod
+    def get_instance():
+        if Map.__instance is None:
+            Map()
+        return Map.__instance
 
 
 class Map:
@@ -959,6 +974,18 @@ class TackTower(TargetingTower):
                 )
             )
 
+#fabric pattern to create many monsters
+class MonsterFactory:
+    @staticmethod
+    def create_monster(distance, monster_type):
+        if monster_type == 'Monster1':
+            return Monster1(distance)
+        elif monster_type == 'Monster2':
+            return Monster2(distance)
+        elif monster_type == 'AlexMonster':
+            return AlexMonster(distance)
+        else:
+            raise ValueError('Invalid monster type')
 
 class Monster(object):
     def __init__(self, distance):
